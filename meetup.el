@@ -29,7 +29,7 @@
 (require 'dash)
 (require 'icalendar)
 (require 'noflet)
-
+(require 's)
 
 (defconst meetup-icalendar-url ; probably this whole thing can get more generic
   "http://www.meetup.com/events/ical/28515762/bb5fded36fe53b5e92bde2fa5c91a94e379060df/going"
@@ -154,7 +154,6 @@ org-agenda format and the file is saved."
 (defun meetup-sync-calendar ()
   (interactive)
   (meetup/get-icalendar))
-
 
 
 (provide 'meetup)
