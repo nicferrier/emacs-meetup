@@ -1,4 +1,58 @@
+= Meetup sync =
+
+meetup.com is a great service for organizing real world meetups.
+
+I go to a lot of these. They are a significant part of my work
+diary. It's tedious to copy them into my diary.
+
+Fortunately they provide an icalendar feed.
+
+Emacs has some icalendar import already. But it's based on the old
+diary stuff and is a bit funky. In particular I'm not sure it's ever
+going to be possible to sync updates. Instead I think you'll always
+have to blow everything away and refresh entirely.
+
+That's a pity because icalendar normally provides a good GUID for an
+event.
+
+So I wrote this. It converts the icalendar into an org format, my
+current file looks like this:
+
+{{{
+* <2014-10-30>  [[http://www.meetup.com/DevOps-Exchange-London/events/209742552/][Lies, damn lies and operational metrics]]
+** event_209742552@meetup.com
+* <2014-11-03>  [[http://www.meetup.com/OpenHack-London/events/207800592/][OpenHack #2]]
+** event_207800592@meetup.com
+* <2014-11-13>  [[http://www.meetup.com/London-DevOps/events/203883242/][London DevOps Meetup #3]]
+** event_203883242@meetup.com
+* <2014-11-13>  [[http://www.meetup.com/London-Emacs-Hacking/events/216111812/][HACK ON EMACS!]]
+** event_216111812@meetup.com
+* <2014-12-02>  [[http://www.meetup.com/London-DevOps/events/209183252/][London DevOps Meetup #4]]
+** event_209183252@meetup.com
+}}}
+
+note how each even has a GUID.
+
+I'm not using the GUID yet... but that's because I've only been
+hacking on this for a few hours as I write this. I'm sure I'll be able
+to get differential updates going soon enough.
 
 
+== Stop waffling! How do I use it? ==
 
-this is a bit of a file
+Right now it's not packaged so just:
+
+* download
+* alter the meetup-icalendar-url to your own
+* change the meetup-org-file to your own
+* eval the file
+* and then:
+
+
+{{{
+M-x meetup-sync-calendar
+}}}
+
+it will go to meetup and pull your events. And the it will display the
+agenda.
+
