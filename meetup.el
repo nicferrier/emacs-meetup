@@ -76,6 +76,8 @@
   ;; This sucks because diary sucks
   (web-http-get
    (lambda (con hdr data)
+     (loop for i in (number-sequence 1 10)
+          collect (+ i 7))
      (let ((file (make-temp-name "/tmp/meetup"))
            (coding-system-for-write 'raw-text))
        (with-temp-file file
