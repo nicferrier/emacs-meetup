@@ -51,7 +51,6 @@ That is where you find the icalendar url.")
 ;; genericizing this - probably urls and files to save them in can be tied together
 
 
-
 (defun meetup/parse-ical (ical-buffer)
   "Return nil or the list of VEVENTS in ICAL-BUFFER.
 
@@ -62,31 +61,33 @@ Each VEVENT is returned as a list of:
 The event start time is a string of YYYYmmDDHHMMSS.  The uid may
 be any unique identifier.  The summary and url are both
 un-escaped."
-  (when (re-search-forward "^BEGIN:VCALENDAR\\s-*$" nil t)
-    (let (ical-contents ical-errors)
-      ;; read ical
-      (beginning-of-line)
-      ;; Return the list of items
-      (--map
-       (match
-        it
-        ((list
-          'VEVENT _
-          (alist 'DTSTART (list (list 'TZID _) tstart)
-                 'SUMMARY (list _ title)
-                 'URL (list _ url)
-                 'UID (list _ uid)) _)
-         (list uid tstart
-               (icalendar--convert-string-for-import title)
-               url)))
-       (match
-        (icalendar--read-element nil nil)
-        ((list
-          (list
-           'VCALENDAR _
-           ical-top-alist
-           (funcall (lambda (l) (--filter (eq (car it) 'VEVENT) l))
-                    events))) events))))))
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^BEGIN:VCALENDAR\\s-*$" nil t)
+      (let (ical-contents ical-errors)
+        ;; read ical
+        (beginning-of-line)
+        ;; Return the list of items
+        (--map
+         (match
+          it
+          ((list
+            'VEVENT _
+            (alist 'DTSTART (list (list 'TZID _) tstart)
+                   'SUMMARY (list _ title)
+                   'URL (list _ url)
+                   'UID (list _ uid)) _)
+           (list uid tstart
+                 (icalendar--convert-string-for-import title)
+                 url)))
+         (match
+          (icalendar--read-element nil nil)
+          ((list
+            (list
+             'VCALENDAR _
+             ical-top-alist
+             (funcall (lambda (l) (--filter (eq (car it) 'VEVENT) l))
+                      events))) events)))))))
 
 (defun meetup/yyymmdd->org-date (yyyymmdd)
   ;; currying function
@@ -146,7 +147,6 @@ org-agenda format and the file is saved."
      (with-temp-buffer
        (insert data)
        (delete-trailing-whitespace (point-min) (point-max))
-       (goto-char (point-min))
        (meetup/ical-to-org
         (meetup/parse-ical (current-buffer)))))
    :url meetup-icalendar-url))
