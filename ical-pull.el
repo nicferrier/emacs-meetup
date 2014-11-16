@@ -32,6 +32,7 @@
 (require 'icalendar)
 (require 'noflet)
 (require 's)
+(require 'org-element)
 
 (defgroup ical-pull nil
   "Pull ical feeds into org-agenda.")
