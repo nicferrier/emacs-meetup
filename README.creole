@@ -1,22 +1,31 @@
-= Meetup sync =
+= ical-pull =
 
-meetup.com is a great service for organizing real world meetups.
+This started out as a thing for syncing with meetup.com. But now it's
+more generic than that.
 
-I go to a lot of these. They are a significant part of my work
-diary. It's tedious to copy them into my diary.
+ical is a nice calendar format. Emacs has some support for it
+already. Org-mode doesn't have great support for it though. Which is
+why I've written this.
 
-Fortunately they provide an icalendar feed.
+You specify a list of ical urls in {{{ical-pull-list}}} and then run:
 
-Emacs has some icalendar import already. But it's based on the old
-diary stuff and is a bit funky. In particular I'm not sure it's ever
-going to be possible to sync updates. Instead I think you'll always
-have to blow everything away and refresh entirely.
+{{{
+M-x ical-pull-calendar
+}}}
 
-That's a pity because icalendar normally provides a good GUID for an
-event.
+and ical-pull will retrieve the listed urls (checking for 404s and the
+like) and then convert them to internal representations and use them
+to update a diary file.
 
-So I wrote this. It converts the icalendar into an org format, my
-current file looks like this:
+Note that it is //updating//. ical uses a UID, really a
+guid. ical-pull finds the uid in your {{{ical-pull-diary.org}}} file
+and then only updates that.
+
+Which means you can update the file and change things without it being
+constantly trashed. You could even keep it in source control and vc
+the updates.
+
+Here's an example of the storage file:
 
 {{{
 * <2014-10-30>  [[http://www.meetup.com/DevOps-Exchange-London/events/209742552/][Lies, damn lies and operational metrics]]
@@ -30,29 +39,4 @@ current file looks like this:
 * <2014-12-02>  [[http://www.meetup.com/London-DevOps/events/209183252/][London DevOps Meetup #4]]
 ** event_209183252@meetup.com
 }}}
-
-note how each even has a GUID.
-
-I'm not using the GUID yet... but that's because I've only been
-hacking on this for a few hours as I write this. I'm sure I'll be able
-to get differential updates going soon enough.
-
-
-== Stop waffling! How do I use it? ==
-
-Right now it's not packaged so just:
-
-* download
-* alter the meetup-icalendar-url to your own
-* change the meetup-org-file to your own
-* eval the file
-* and then:
-
-
-{{{
-M-x meetup-sync-calendar
-}}}
-
-it will go to meetup and pull your events. And the it will display the
-agenda.
 
