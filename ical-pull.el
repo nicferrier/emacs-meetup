@@ -24,6 +24,41 @@
 
 ;; Sync ical calendars with Org Agenda.
 
+;; ical is a nice calendar format. Emacs has some support for it
+;; already. Org-mode doesn't have great support for it though. Which is
+;; why I've written this.
+
+;; You specify a list of ical urls in {{{ical-pull-list}}} and then run:
+
+;; {{{
+;; M-x ical-pull-calendar
+;; }}}
+
+;; and ical-pull will retrieve the listed urls (checking for 404s and the
+;; like) and then convert them to internal representations and use them
+;; to update a diary file.
+
+;; Note that it is //updating//. ical uses a UID, really a
+;; guid. ical-pull finds the uid in your {{{ical-pull-diary.org}}} file
+;; and then only updates that.
+
+;; Which means you can update the file and change things without it being
+;; constantly trashed. You could even keep it in source control and vc
+;; the updates.
+
+;; Here's an example of the storage file:
+
+;; * <2014-10-30>  [[http://www.meetup.com/DevOps-Exchange-London/events/209742552/][Lies, damn lies and operational metrics]]
+;; ** event_209742552@meetup.com
+;; * <2014-11-03>  [[http://www.meetup.com/OpenHack-London/events/207800592/][OpenHack #2]]
+;; ** event_207800592@meetup.com
+;; * <2014-11-13>  [[http://www.meetup.com/London-DevOps/events/203883242/][London DevOps Meetup #3]]
+;; ** event_203883242@meetup.com
+;; * <2014-11-13>  [[http://www.meetup.com/London-Emacs-Hacking/events/216111812/][HACK ON EMACS!]]
+;; ** event_216111812@meetup.com
+;; * <2014-12-02>  [[http://www.meetup.com/London-DevOps/events/209183252/][London DevOps Meetup #4]]
+;; ** event_209183252@meetup.com
+
 ;;; Code:
 
 (require 'web)
@@ -237,4 +272,4 @@ org-agenda format and the file is saved."
 
 (provide 'meetup)
 
-;;; meetup.el ends here
+;;; ical-pull.el ends here
