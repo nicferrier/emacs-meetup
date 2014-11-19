@@ -229,7 +229,7 @@ org-agenda format and the file is saved."
    :url url))
 
 ;;;###autoload
-(defun icall-pull-calendar ()
+(defun ical-pull-calendar ()
   (interactive)
   (--each
       ical-pull-list
