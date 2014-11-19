@@ -4,7 +4,7 @@
 
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Keywords: calendar
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Package-requires: ((shadchen "1.2")(dash "2.9.0")(s "1.9.0")(noflet "0.0.14"))
 
 ;; This program is free software; you can redistribute it and/or modify
